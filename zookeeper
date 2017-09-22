@@ -1,0 +1,9 @@
+#! /bin/sh
+
+command_target=$1
+if [ !  $command_target ]; then
+  echo 'please support target command： start? restart? stop?'
+  exit 1
+fi
+
+cd /home/facheng/Tools/zookeeper/zookeeper-3.4.6/bin/ && ./zkServer.sh $command_target

@@ -1,0 +1,160 @@
+#! /bin/bash
+build_all(){
+  echo '==============start build all===================='
+  build_base && build_core && build_tariff && build_openapi && build_mobile
+  echo '==============end build all===================='
+
+}
+build_vaadin(){
+  echo '==============start build vaadin===================='
+  cd ../otms-core
+  mvn clean package -Pvaadin,prod -DskipTests=true -Dmaven.test.skip=true
+  mvn clean install -DskipTests
+  echo '==============end build vaadin===================='
+}
+
+build_base(){
+  echo '==============start build_base===================='
+  mvn clean install -DskipTests
+  echo '==============end build_base===================='
+}
+
+build_core(){
+  #build_base
+  echo '==============start build_core===================='
+  cd ../otms-core
+  mvn clean install -DskipTests
+  echo '==============end build_core===================='
+}
+
+build_ordersearch(){
+  #build_base
+  echo '==============start build_ordersearch===================='
+  cd ../otms-order-search/
+  mvn clean install -DskipTests
+  echo '==============end build_ordersearch===================='
+}
+
+build_tariff(){
+  #build_base
+  echo '==============start build_tariff===================='
+  cd ../otms-tariff-service &&   mvn clean install -DskipTests
+  echo '==============end build_tariff===================='
+}
+
+build_openapi(){
+  #build_base
+  echo '==============start build_openapi===================='
+  cd ../otms-open-api &&   mvn clean install
+  echo '==============end build_openapi===================='
+}
+
+
+build_mobile(){
+  #build_base
+  echo '==============start build mobile===================='
+  cd ../otms-mobile/service-impl && mvn clean install -DskipTests && cd ../service && mvn clean install -DskipTests
+  echo '==============end build mobile===================='
+}
+
+build_export(){
+  #build_base
+  echo '==============start build export===================='
+  cd ../otms-export && mvn clean install -DskipTests
+  echo '==============end build export===================='
+}
+
+build_asyn_export(){
+  #build_base
+  echo '==============start build export===================='
+  cd ../otms-asynchronous-export && mvn clean install -DskipTests
+  echo '==============end build export===================='
+}
+
+build_mail(){
+  #build_base
+  echo '==============start build export===================='
+  cd ../otms-notification/mail && mvn clean install -DskipTests
+  echo '==============end build export===================='
+}
+
+build_meta(){
+  #build_base
+  echo '==============start build meta===================='
+  cd ../otms-meta-service/ && mvn clean install -DskipTests
+  echo '==============end build meta===================='
+}
+
+build_coreapi(){
+  #build_base
+  echo '==============start build core-api===================='
+  cd ../otms-core-api/core-api/ && mvn clean install -DskipTests
+  echo '==============end build core-api===================='
+}
+
+build_edi(){
+  #build_base
+  echo '==============start build edi===================='
+  cd /home/facheng/source/otms/edi/ && mvn clean install -DskipTests
+  echo '==============end build edi===================='
+}
+
+
+var=$1
+
+ if [ ! $2 ]; then
+   default_path=/home/facheng/source/otms/opentrans/application/otms/otms-base
+  echo "PATH IS NULL, default path is "+$default_path
+  cd $default_path
+  else
+  echo "start mvn clean install " + $2
+  cd $2
+  fi
+
+case "$var" in
+  all)
+  build_all
+  ;;
+  core)
+  build_core
+  ;;
+  mobile)
+  build_mobile
+  ;;
+  openapi)
+  build_openapi
+  ;;
+  tariff)
+  build_tariff
+  ;;
+  vaadin)
+  build_vaadin
+  ;;
+  ordersearch)
+  build_ordersearch
+  ;;
+  base)
+  build_base
+  ;;
+  export)
+  build_export
+  ;;
+  asynexport)
+  build_asyn_export
+  ;;
+  mail)
+  build_mail
+  ;;
+  coreapi)
+  build_coreapi
+  ;;
+  edi)
+  build_edi
+  ;;
+  meta)
+  build_meta
+  ;;
+  *)
+  echo "please input module paramter! all;core;mobile;openapi;tariff;vaadin;ordersearch;base;export;asynexport;mail;coreapi;edi"
+esac
+exit 0

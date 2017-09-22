@@ -1,0 +1,3 @@
+#！ /bin/bash
+cd /home/facheng/Tools/intellij/idea-IU-163.12024.16/bin && nohup ./idea.sh &
+exit 0

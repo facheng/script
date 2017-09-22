@@ -1,0 +1,41 @@
+#! /bin/bash
+
+#################################
+#need support two params
+#1、db_host : eg:192.168.3.3
+#2、script_path : eg: /home/s113
+################################
+execute_sql(){
+  sql_dir=$1
+  db_name=$2
+  db_host=$3
+  filelist=`ls $sql_dir/*.sql`
+  for file in $filelist; do
+    echo $file
+    psql -d $db_name -h $db_host -U jetty -w -a -f $file
+  done
+}
+
+script_path=$2
+db_host=$1
+if [ ! $db_host ]; then
+  echo 'db host is null, process default host : localhost'
+  db_host='localhost'
+else
+  echo 'target host: '$db_host
+fi
+
+if [ ! $script_path ]; then
+  echo 'input path is null, start process for current path'
+else
+  echo 'input path is ' + $script_path
+  cd $script_path
+fi
+
+declare -A path_dbname_map=(['otms']='otmscore' ['otmstariff']='otms_tariff' ['otmsopenapi']='otmsopenapi' ['otmsmeta']='otmsmeta')
+for path in ${!path_dbname_map[@]}; do
+  echo 'start execute '${path_dbname_map[$path]}
+  sleep 1s
+  execute_sql $path ${path_dbname_map[$path]} $db_host
+done
+#execute_sql 'otms'  $db_host && execute_sql   $db_host && execute_sql   $db_host
