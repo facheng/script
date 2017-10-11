@@ -106,6 +106,9 @@ var=$1
    default_path=/home/facheng/source/otms/opentrans/application/otms/otms-base
   echo "PATH IS NULL, default path is "+$default_path
   cd $default_path
+  elif [ $2 = "git2" ]; then
+    echo "build directory /home/facheng/source/otms/git2/opentrans/application/otms/otms-base"
+   cd /home/facheng/source/otms/git2/opentrans/application/otms/otms-base
   else
   echo "start mvn clean install " + $2
   cd $2
@@ -139,7 +142,7 @@ case "$var" in
   export)
   build_export
   ;;
-  asynexport)
+  asyncexport)
   build_asyn_export
   ;;
   mail)
