@@ -8,8 +8,7 @@ build_all(){
 build_vaadin(){
   echo '==============start build vaadin===================='
   cd ../otms-core
-  mvn clean package -Pvaadin,prod -DskipTests=true -Dmaven.test.skip=true
-  mvn clean install -DskipTests
+  mvn clean install -Pvaadin,prod -DskipTests=true -Dmaven.test.skip=true
   echo '==============end build vaadin===================='
 }
 
@@ -45,7 +44,7 @@ build_tariff(){
 build_openapi(){
   #build_base
   echo '==============start build_openapi===================='
-  cd ../otms-open-api &&   mvn clean install
+  cd ../otms-open-api &&   mvn clean install -DskipTests
   echo '==============end build_openapi===================='
 }
 
@@ -83,6 +82,13 @@ build_meta(){
   echo '==============start build meta===================='
   cd ../otms-meta-service/ && mvn clean install -DskipTests
   echo '==============end build meta===================='
+}
+
+build_mam(){
+  #build_base
+  echo '==============start build mam===================='
+  cd ../otms-mam/ && mvn clean install -DskipTests
+  echo '==============end build mam===================='
 }
 
 build_coreapi(){
@@ -156,6 +162,9 @@ case "$var" in
   ;;
   meta)
   build_meta
+  ;;
+  mam)
+  build_mam
   ;;
   *)
   echo "please input module paramter! all;core;mobile;openapi;tariff;vaadin;ordersearch;base;export;asynexport;mail;coreapi;edi"
