@@ -9,6 +9,7 @@ build_vaadin(){
   echo '==============start build vaadin===================='
   cd ../otms-core
   mvn clean install -Pvaadin,prod -DskipTests=true -Dmaven.test.skip=true
+  cd ../otms-core-api/core-api/ && mvn clean install -Pvaadin,prod -DskipTests=true -Dmaven.test.skip=true
   echo '==============end build vaadin===================='
 }
 
