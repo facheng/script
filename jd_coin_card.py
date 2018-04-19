@@ -1,5 +1,11 @@
 #!/usr/bin/python
-# -*- coding:UTF-8 -*-
+#coding:UTF-8
+
+'''
+please install requests before run this script
+like:
+    sudo Pip requests install
+'''
 
 import requests
 import time
