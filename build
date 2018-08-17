@@ -24,6 +24,7 @@ build_core(){
   echo '==============start build_core===================='
   cd ../otms-core
   mvn clean install -DskipTests
+  
   echo '==============end build_core===================='
 }
 
@@ -73,9 +74,9 @@ build_asyn_export(){
 
 build_mail(){
   #build_base
-  echo '==============start build export===================='
+  echo '==============start build mail===================='
   cd ../otms-notification/mail && mvn clean install -DskipTests
-  echo '==============end build export===================='
+  echo '==============end build mail===================='
 }
 
 build_meta(){
@@ -104,6 +105,15 @@ build_edi(){
   echo '==============start build edi===================='
   cd /home/facheng/source/otms/edi/ && mvn clean install -DskipTests
   echo '==============end build edi===================='
+}
+
+
+build_event_manager(){
+   #build event manager
+  echo '==============start build manager===================='
+  cd ../otms-event/event-base  && mvn clean install -DskipTests
+  cd ../event-manager/  && mvn clean install -DskipTests
+  echo '==============end build manager===================='
 }
 
 
@@ -166,6 +176,9 @@ case "$var" in
   ;;
   mam)
   build_mam
+  ;;
+  event)
+  build_event_manager
   ;;
   *)
   echo "please input module paramter! all;core;mobile;openapi;tariff;vaadin;ordersearch;base;export;asynexport;mail;coreapi;edi"

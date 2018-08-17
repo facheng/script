@@ -9,9 +9,10 @@ like:
 
 import requests
 import time
+import ast
 from file_read import convert_read_file 
 
-def send_request(requestDatas, url = 'https://coin.jd.com/card/charge.html'):
+def send_request(requestDatas, send_code_url = 'https://coin.jd.com/sms/sendCode.html', charge_url = 'https://coin.jd.com/card/charge.html', check_code_url='https://coin.jd.com/card/checkCode.html'):
     print '=========start ============== requestData --> ', requestDatas
     requestHeaders = {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8', 
     'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -26,10 +27,24 @@ def send_request(requestDatas, url = 'https://coin.jd.com/card/charge.html'):
     #模拟http请求 /card/charge.html
 
     for requestData in requestDatas:
-        response = requests.post(url, data=requestData, verify=False, headers= requestHeaders)
-        print response.text
-        time.sleep(2)
+        
+        
+        print '===json request == ',requestData['cipher_no']
 
+        #response = requests.post(charge_url, data=requestData, verify=False, headers= requestHeaders)
+        #print response.text
+        
+        
+        response = requests.post(send_code_url, data=requestData, verify=False, headers= requestHeaders)
+        print response.text
+        temp_json = response.text
+        requestData['smsyzm']=temp_json[39:45]
+        print '=== request =========',requestData
+        response = requests.post(check_code_url, data=requestData, verify=False, headers= requestHeaders)
+        print response.text
+        
+        time.sleep(2)
+        
 if __name__ == '__main__':
     print send_request(convert_read_file(path='/home/facheng/backup/test.txt'))
     print "===========end============="    

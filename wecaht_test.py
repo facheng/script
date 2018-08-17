@@ -16,11 +16,11 @@ print sys.getdefaultencoding()
 bot = Bot()
 target_group = bot.groups().search('忽悠小分队'.encode('utf-8').decode('utf-8'))[0]
 
-tuling = Tuling(api_key='2782745ec4eb4aa1be87d121417fb8d8')
+tuling = Tuling(api_key='')
 
 @bot.register(target_group)
 def print_msg(msg):
     print msg
     return tuling.do_reply(msg)
 
-embed()
+embed() 
