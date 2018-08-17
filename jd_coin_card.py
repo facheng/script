@@ -30,10 +30,10 @@ def send_request(requestDatas, send_code_url = 'https://coin.jd.com/sms/sendCode
         
         
         print '===json request == ',requestData['cipher_no']
-
-        #response = requests.post(charge_url, data=requestData, verify=False, headers= requestHeaders)
-        #print response.text
-        
+        '''
+        response = requests.post(charge_url, data=requestData, verify=False, headers= requestHeaders)
+        print response.text
+        '''
         
         response = requests.post(send_code_url, data=requestData, verify=False, headers= requestHeaders)
         print response.text
@@ -46,7 +46,7 @@ def send_request(requestDatas, send_code_url = 'https://coin.jd.com/sms/sendCode
         time.sleep(2)
         
 if __name__ == '__main__':
-    print send_request(convert_read_file(path='/home/facheng/backup/test.txt'))
+    print send_request(convert_read_file(path='text.txt'))
     print "===========end============="    
 
 
