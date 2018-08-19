@@ -7,7 +7,7 @@ def convert_read_file(path):
     with open(path, 'r') as files:
         lines = files.readlines()
         result = []
-        flag= ''
+        flag= '密钥'
         trip_ = '\n'
         for file in lines:
             file_str =file.strip(trip_)
