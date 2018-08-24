@@ -6,7 +6,14 @@
 $(function() {
     var cipher_no = []
     $('#start').click(function() {
-        console.info(cipher_no)
+        if (cipher_no.length == 0) {
+            alert('请先选择钢镚!')
+            return;
+        }
+
+        $.post('https://coin.jd.com/card/charge.html', { cipher_no: 'BB8A-FCEB-6564-4D31' }, function(data) {
+            console.info(data)
+        })
     })
     $('#file').change(function() {
         var fileInput = $('#file')
@@ -26,7 +33,7 @@ $(function() {
                     return;
                 }
 
-                jd_coin_result += ("<tr><td id = 'coin'>" + n + "</td><td id='result_" + i + "'></td></tr>");
+                jd_coin_result += ("<tr><td id = 'no'>" + (i + 1) + "</td><td id = 'coin'>" + n + "</td><td id='result_" + i + "'></td></tr>");
                 console.log(n);
                 cipher_no.push(n)
                 $('#jd_coin_info').html(jd_coin_result)

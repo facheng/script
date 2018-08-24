@@ -3,16 +3,16 @@
 // found in the LICENSE file.
 
 
-chrome.runtime.onInstalled.addListener(function() {
-    chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-        chrome.declarativeContent.onPageChanged.addRules([{
-            conditions: [new chrome.declarativeContent.PageStateMatcher({
-                pageUrl: { hostEquals: 'coin.jd.com' },
-            })],
-            actions: [new chrome.declarativeContent.ShowPageAction()]
-        }]);
-    });
-});
+// chrome.runtime.onInstalled.addListener(function() {
+//     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+//         chrome.declarativeContent.onPageChanged.addRules([{
+//             conditions: [new chrome.declarativeContent.PageStateMatcher({
+//                 pageUrl: { hostLike: 'www.jd.com' },
+//             })],
+//             actions: [new chrome.declarativeContent.ShowPageAction()]
+//         }]);
+//     });
+// });
 
 chrome.cookies.onChanged.addListener(function(info) {
     console.log("onChanged" + JSON.stringify(info));
