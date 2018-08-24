@@ -29,17 +29,18 @@
 </head>
 
 <body>
-    手机号<input type="text" id="phone"></input>
-    </br>
-    钢镚文件路径<input type="file" id="file"></input>
-    </br>
-    匹配符<input type="text" id="matcher"></input><label>*秘钥前面的标识符*</label>
-    </br>
-    短信验证
-    <input type="radio" name="request_sms" value="true">是</input>
-    <input type="radio" name="request_sms" value="false" checked>否</input>
-    </br>
-    <button id="start">开始</button>
+
+    钢镚文件路径<input type="file" id="file" />
+    <br/> 匹配符
+    <input type="text" id="matcher" /><label>*秘钥前面的标识符*</label>
+    <br/> 短信验证
+    <input id="request_sms_true" type="radio" name="request_sms" value="true" />是
+    <input id="request_sms_false" type="radio" name="request_sms" value="false" checked/>否
+    <br/>
+
+    <span id="phone_line">手机号<input type="text" id="phone" /></span>
+    <br/>
+    <button id="start">开始</button><button id="reset">重置</button>
     <table border="1px" bordercolor="#000000" cellspacing="0px" style="border-collapse:collapse">
         <thead>
             <tr>
@@ -52,4 +53,4 @@
     </table>
 </body>
 
-</html>
+</html
