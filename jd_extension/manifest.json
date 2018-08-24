@@ -3,9 +3,9 @@
     "version": "0.8",
     "description": "京东钢镚辅助工具",
     "permissions": ["cookies", "tabs", "http://*/*", "https://*/*"],
-    "icons": { "16": "cookie.png", "48": "cookie.png", "128": "cookie.png" },
+    "icons": { "16": "jd.png", "48": "jd.png", "128": "jd.png" },
     "browser_action": {
-        "default_icon": "cookie.png"
+        "default_icon": "jd.png"
     },
     "background": {
         "scripts": ["background.js"]
