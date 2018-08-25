@@ -33,7 +33,7 @@ $.extend({
                 })
             })
         } else {
-            $.syncPost('https://coin.jd.com/card/charge.html', request_data, function(data) {
+            $.syncPost('https://coin.jd.com/card/confirmCharge.html', request_data, function(data) {
                 callback(data.resultMessage)
             })
         }

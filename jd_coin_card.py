@@ -68,7 +68,7 @@ class Request:
     payload = []
     cookie = ''
     send_code_url = 'https://coin.jd.com/sms/sendCode.html'
-    charge_url = 'https://coin.jd.com/card/charge.html'
+    charge_url = 'https://coin.jd.com/card/confirmCharge.html'
     check_code_url = 'https://coin.jd.com/card/checkCode.html'
     request_sms = False
 
