@@ -93,6 +93,12 @@ $(function() {
         $('#file').val('')
     })
 
+    $('#file').click(function() {
+        $('#jd_coin_info').html('')
+        cipher_nos = []
+        $('#file').val('')
+    })
+
     $('#file').change(function() {
         $('#jd_coin_info').html('')
         cipher_nos = []
