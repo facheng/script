@@ -40,7 +40,8 @@ $.extend({
 
     }
 });
-
+var index = 0;
+var clockPid
 $(function() {
     $('#phone_line').hide()
     var cipher_nos = []
@@ -60,37 +61,24 @@ $(function() {
         })
 
         $('#start').attr('disabled', 'disabled')
-        var tempCipherNos = cipher_nos
-        var index = 0;
-        var matcher = $('#matcher').val()
-        var requestSms = $('input:checked').val() == 'true' ? true : false
-        var pid = setInterval(() => {
-            var tempCipherNo = tempCipherNos[index]
-            var cipherNo
-            if (matcher != null && matcher != undefined && matcher != '') {
-                cipherNo = tempCipherNo.substr(tempCipherNo.lastIndexOf(matcher, tempCipherNo.length) + matcher.length, tempCipherNo.length)
-            } else {
-                cipherNo = tempCipherNo
-            }
-
-            $.myPost({ cipher_no: cipherNo }, requestSms, function(msg) {
-                $('#result_' + index).html(msg)
-            })
-
-            index++
-            if (tempCipherNos.length == index) {
-                clearInterval(pid)
-                $('#start').removeAttr('disabled')
-            }
-
-        }, 2500)
+        $('#reset').removeAttr('disabled')
+        clockPid = triggerRequest(cipher_nos);
 
     })
 
     $('#reset').click(function() {
-        $('#jd_coin_info').html('')
-        cipher_nos = []
-        $('#file').val('')
+        var currentStatus = $('#reset').val()
+        if (currentStatus == 'stop') {
+            $('#reset').text('继续')
+            $('#reset').val('goon')
+            stopRequest(clockPid)
+        } else {
+            $('#reset').text('停止')
+            $('#reset').val('stop')
+            continueRequest(cipher_nos)
+        }
+
+
     })
 
     $('#file').click(function() {
@@ -102,6 +90,7 @@ $(function() {
     $('#file').change(function() {
         $('#jd_coin_info').html('')
         cipher_nos = []
+        index = 0
 
         var fileInput = $('#file')
         if (!fileInput.val()) {
@@ -120,7 +109,7 @@ $(function() {
                     return;
                 }
 
-                jd_coin_result += ("<tr><td id = 'no'>" + (i + 1) + "</td><td id = 'coin'>" + n + "</td><td id='result_" + i + "'></td></tr>");
+                jd_coin_result += ("<tr><td>" + (i + 1) + "</td><td>" + n + "</td><td id='result_" + i + "'></td><td id='convert_time_" + i + "'></td></tr>");
                 cipher_nos.push(n)
             });
         }
@@ -128,6 +117,9 @@ $(function() {
         reader.onloadend = function(e) {
             $('#jd_coin_info').html(jd_coin_result)
         }
+
+        $('#start').removeAttr('disabled')
+        $('#reset').val('stop').html('停止').attr('disabled', 'disabled')
 
     })
 
@@ -140,3 +132,60 @@ $(function() {
     });
 
 })
+
+function stopRequest(clockPid) {
+    clearInterval(clockPid)
+}
+
+function continueRequest(tempCipherNos) {
+    clockPid = triggerRequest(tempCipherNos);
+}
+
+function triggerRequest(tempCipherNos) {
+    var matcher = $('#matcher').val()
+    var requestSms = $('input:checked').val() == 'true' ? true : false
+    var pid = setInterval(() => {
+        var tempCipherNo = tempCipherNos[index]
+        var cipherNo
+        if (matcher != null && matcher != undefined && matcher != '') {
+            cipherNo = tempCipherNo.substr(tempCipherNo.lastIndexOf(matcher, tempCipherNo.length) + matcher.length, tempCipherNo.length)
+        } else {
+            cipherNo = tempCipherNo
+        }
+
+        $.myPost({ cipher_no: cipherNo }, requestSms, function(msg) {
+            $('#result_' + index).html(msg)
+        })
+
+        $('#convert_time_' + index).text(dateFormatter(new Date()));
+
+        index++
+        if (tempCipherNos.length == index) {
+            clearInterval(clockPid)
+            $('#start').removeAttr('disabled')
+            index = 0
+            $('#reset').val('stop').html('停止').attr('disabled', 'disabled')
+        }
+
+    }, 2000)
+    return pid;
+}
+
+function dateFormatter(date) {
+    var year = date.getFullYear();
+    var month = change(date.getMonth() + 1);
+    var day = change(date.getDate());
+    var hour = change(date.getHours());
+    var minute = change(date.getMinutes());
+    var second = change(date.getSeconds());
+    return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+}
+
+
+function change(t) {
+    if (t < 10) {
+        return "0" + t;
+    } else {
+        return t;
+    }
+}
