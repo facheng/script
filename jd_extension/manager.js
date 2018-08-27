@@ -5,7 +5,7 @@
 'use strict';
 
 $.extend({
-    syncPost: function(request_url, request_data, callback) {
+    syncPost: function(request_url, request_data, callback, errorCallback) {
         $.ajax({
             type: 'POST',
             url: request_url,
@@ -13,13 +13,16 @@ $.extend({
             async: false,
             success: function(response) {
                 callback(response)
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                errorCallback();
             }
         })
     }
 });
 
 $.extend({
-    myPost: function(request_data, request_sms, callback) {
+    jdCoinPost: function(request_data, request_sms, callback, errorCallback) {
         if (request_sms) {
             $.syncPost('https://coin.jd.com/sms/sendCode.html', request_data, function(data) {
                 if (data.smsyzm == null) {
@@ -30,12 +33,12 @@ $.extend({
                 request_data.smsyzm = data.smsyzm
                 $.syncPost('https://coin.jd.com/card/checkCode.html', request_data, function(data) {
                     callback(data.resultMessage)
-                })
-            })
+                }, errorCallback)
+            }, errorCallback)
         } else {
             $.syncPost('https://coin.jd.com/card/confirmCharge.html', request_data, function(data) {
                 callback(data.resultMessage)
-            })
+            }, errorCallback)
         }
 
     }
@@ -69,12 +72,8 @@ $(function() {
     $('#reset').click(function() {
         var currentStatus = $('#reset').val()
         if (currentStatus == 'stop') {
-            $('#reset').text('继续')
-            $('#reset').val('goon')
             stopRequest(clockPid)
         } else {
-            $('#reset').text('停止')
-            $('#reset').val('stop')
             continueRequest(cipher_nos)
         }
 
@@ -134,10 +133,14 @@ $(function() {
 })
 
 function stopRequest(clockPid) {
+    $('#reset').text('继续')
+    $('#reset').val('goon')
     clearInterval(clockPid)
 }
 
 function continueRequest(tempCipherNos) {
+    $('#reset').text('停止')
+    $('#reset').val('stop')
     clockPid = triggerRequest(tempCipherNos);
 }
 
@@ -153,8 +156,12 @@ function triggerRequest(tempCipherNos) {
             cipherNo = tempCipherNo
         }
 
-        $.myPost({ cipher_no: cipherNo }, requestSms, function(msg) {
+        $.jdCoinPost({ cipher_no: cipherNo }, requestSms, function(msg) {
             $('#result_' + index).html(msg)
+        }, function() {
+            stopRequest(clockPid);
+            alert('请求失败，请检查京东登录状态！');
+            $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>")
         })
 
         $('#convert_time_' + index).text(dateFormatter(new Date()));
