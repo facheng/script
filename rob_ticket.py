@@ -23,7 +23,7 @@ def get_request_header(cookie):
     return requestHeaders
 
 
-def ticket_rob(cookie, rule_key, get_coupon_url='https://a.jd.com/indexAjax/getCoupon.html', get_cate_url='https://a.jd.com/indexAjax/getCouponListByCatalogId.html?callback=jQuery4342914&catalogId=19&page=1&pageSize=9&_=1534521129630'):
+def ticket_rob(target_timer, cookie, rule_key, get_coupon_url='https://a.jd.com/indexAjax/getCoupon.html', get_cate_url='https://a.jd.com/indexAjax/getCouponListByCatalogId.html?callback=jQuery4342914&catalogId=19&page=1&pageSize=9&_=1534521129630'):
     requestHeaders = get_request_header(cookie)
     send_code_url = get_coupon_url+'?callback=jQuery1355969&key=' + rule_key + '&type=1&_=1534554679960'
 
@@ -32,10 +32,17 @@ def ticket_rob(cookie, rule_key, get_coupon_url='https://a.jd.com/indexAjax/getC
 
     now_timer = datetime.datetime.now()
     print now_timer
-    sched_timer = datetime.datetime(2018, 8, 19, 22, 00, 00, 000100)
 
-    while now_timer < sched_timer:
-        print '不相等，继续轮询,now ->', now_timer, ' target ->', sched_timer
+    sched_timer = target_timer + datetime.timedelta(seconds = -1)
+
+    difference = time.mktime(sched_timer.timetuple()) - time.mktime(now_timer.timetuple())
+    print 'now timer ',now_timer,' sched timer ',sched_timer,'还差 ',difference,'秒开始'
+    time.sleep(difference)
+    print '当前时间 ', datetime.datetime.now()
+    now_timer = datetime.datetime.now()
+
+    while now_timer < target_timer:
+        print '不相等，继续轮询,now ->', now_timer, ' target ->', target_timer
         now_timer = datetime.datetime.now()
     else:
         print '发送请求'
@@ -48,4 +55,5 @@ if __name__ == '__main__':
     cookie = ''
     # 通过getCouponListByCatalogId获得
     rule_key = 'dd5991b1d0c347f009366643800fb3873c65ca1b8e5dc241b942e49d3eeccd7a6199d8d64d121a921cc53bbd6d535cf2'
-    ticket_rob(cookie, rule_key = rule_key)
+    target_timer_arg = datetime.datetime(2018, 8, 27, 21, 10, 00, 000500)
+    ticket_rob(target_timer = target_timer_arg, cookie = cookie, rule_key = rule_key)
