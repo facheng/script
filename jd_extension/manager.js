@@ -22,13 +22,7 @@ $.extend({
 });
 
 $.extend({
-    jdCoinPost: function(request_data, request_sms, callback) {
-
-        var errorCallback = function() {
-            stopRequest(clockPid);
-            alert('请检查京东登录状态！');
-        }
-
+    jdCoinPost: function(request_data, request_sms, callback, errorCallback) {
         if (request_sms) {
             $.syncPost('https://coin.jd.com/sms/sendCode.html', request_data, function(data) {
                 if (data.smsyzm == null) {
@@ -164,6 +158,10 @@ function triggerRequest(tempCipherNos) {
 
         $.jdCoinPost({ cipher_no: cipherNo }, requestSms, function(msg) {
             $('#result_' + index).html(msg)
+        }, function() {
+            stopRequest(clockPid);
+            alert('请求失败，请检查京东登录状态！');
+            $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>")
         })
 
         $('#convert_time_' + index).text(dateFormatter(new Date()));
