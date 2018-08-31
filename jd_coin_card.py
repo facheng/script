@@ -68,7 +68,7 @@ class Request:
     payload = []
     cookie = ''
     send_code_url = 'https://coin.jd.com/sms/sendCode.html'
-    charge_url = 'https://coin.jd.com/card/confirmCharge.html'
+    charge_url = 'https://coin.jd.com/card/charge.html'
     check_code_url = 'https://coin.jd.com/card/checkCode.html'
     request_sms = False
 
@@ -79,9 +79,9 @@ class Request:
 
 
 if __name__ == '__main__':
-    phone = '18302155350'
+    phone = ''
     request_sms = False  # 标识是否需要短信验证码
-    cookie = '__jdu=15084283349251591759680; __utmz=122270672.1530843446.1.1.utmcsr=trade.jd.com|utmccn=(referral)|utmcmd=referral|utmcct=/shopping/order/getOrderInfo.action; shshshfpa=f6e73d54-e616-8d34-03d6-7ea58ec56a89-1532744301; shshshfpb=07a4a67cff5ff63c1d7c3a72f160d4d38bfa9b21083448efc5ab2678f4; user-key=5a4a4e92-495d-4bac-9cc1-23da5097a54b; areaId=27; ipLoc-djd=27-2376-51881-0.546866999; ipLocation=%u9655%u897f; unpl=V2_ZzNtbUtXEEB3C0AALhAPUWILEwgSAEcWJg5GV3oQDlVuARRYclRCFXwUR11nGVsUZAMZXUVcQRdFCHZXchBYAWcCGllyBBNNIEwHDCRSBUE3XHxcFVUWF3RaTwEoSVoAYwtBDkZUFBYhW0IAKElVVTUFR21yVEMldQl2VH8YVQBkChBfR19AEXUMTlR9HVQCbgIibUVncyVwD0Zcfh9sBFcCIh8WC0cQdQ5FXTYZWARuBhFUQFVGHXYMRlBzGVoBbwQbXHJWcxY%3d; PCSYCityID=2; __jdv=122270672|direct|-|none|-|1534554762885; cn=20; pinId=Y5tlS1V9_CV9ao2-6idyxw; pin=Fcwang123; unick=ABCWang123; _tp=M3iNb1bItY7mplBeffgbjQ%3D%3D; _pst=Fcwang123; __jdc=122270672; TrackID=1K1Av4iFfjIGzE4dzt-nai_g6qeSyVPBRozqs6ggLWcwReXFakXZWWSuuzJUAn3do9lMKF-R8tgpv-FI6stJvy5gLV2_Y0nf8A2ndOaBB9oMP0B8ILhGvkg3REgFnYmj6; ceshi3.com=201; shshshfp=0a3a28bd7e8db0642394d594da321bd2; 3AB9D23F7A4B3C9B=RC5ZDSDG6STHB4C7DHATUKGGMW4JCX3RZY3QSUVYHR3YGEQJSRYQFILEFUMFXYVF7UMUSMWKOXBU6OUH6ZAVIEFMEI; JSESSIONID=559A541FC770697BABB1FCDC53FE7F45.s1; __jda=122270672.15084283349251591759680.1508428335.1534689394.1534746748.32; __jdb=122270672.1.15084283349251591759680|32.1534746748; thor=F6BD746C3FA1A9CC3E403B9A640BECB3403E00A25805FB079D891158F95FEB10012410CF8670B2B14F450134E3FFF105737E999A92241EA5E84745292A6A49460BCEF2D2CA3D675EABB957BE686A3F19AAC6708696E44DFCAB96C02CB8CEF925B2D86105FA4C74F6C19A0590CA40DDF3E65FB1A23F83B763C3397DF1355ADB8D9268A98DEA9A321E0D314E7D09AC4F26'
+    cookie = ''
     start_char = '密钥'  # 正则表达式需要匹配的标识
 
     # path为钢镚密钥存放文件的路径，应与当前文件同一路径下
