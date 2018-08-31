@@ -156,7 +156,7 @@ function triggerRequest(tempCipherNos) {
             cipherNo = tempCipherNo
         }
 
-        $.jdCoinPost({ cipher_no: cipherNo }, requestSms, function(msg) {
+        $.jdCoinPost({ cipher_no: cipherNo, bindSource: '1' }, requestSms, function(msg) {
             $('#result_' + index).html(msg)
         }, function() {
             stopRequest(clockPid);
