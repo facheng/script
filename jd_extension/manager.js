@@ -174,7 +174,7 @@ function triggerRequest(tempCipherNos) {
             $('#reset').val('stop').html('停止').attr('disabled', 'disabled')
         }
 
-    }, 2000)
+    }, 2500)
     return pid;
 }
 
