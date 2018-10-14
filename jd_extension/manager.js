@@ -26,18 +26,18 @@ $.extend({
         if (request_sms) {
             $.syncPost('https://coin.jd.com/sms/sendCode.html', request_data, function(data) {
                 if (data.smsyzm == null) {
-                    callback(data.msg)
+                    callback(data)
                     return;
                 }
                 request_data.mobileNum = $('#phone').val()
                 request_data.smsyzm = data.smsyzm
                 $.syncPost('https://coin.jd.com/card/checkCode.html', request_data, function(data) {
-                    callback(data.resultMessage)
+                    callback(data)
                 }, errorCallback)
             }, errorCallback)
         } else {
             $.syncPost('https://coin.jd.com/card/charge.html', request_data, function(data) {
-                callback(data.resultMessage)
+                callback(data)
             }, errorCallback)
         }
 
@@ -108,7 +108,7 @@ $(function() {
                     return;
                 }
 
-                jd_coin_result += ("<tr><td>" + (i + 1) + "</td><td>" + n + "</td><td id='result_" + i + "'></td><td id='convert_time_" + i + "'></td></tr>");
+                jd_coin_result += ("<tr id='convert_info_" + i + "'><td>" + (i + 1) + "</td><td>" + n + "</td><td id='result_" + i + "'></td><td id='convert_time_" + i + "'></td></tr>");
                 cipher_nos.push(n)
             });
         }
@@ -129,7 +129,6 @@ $(function() {
             $('#phone_line').hide()
         }
     });
-
 })
 
 function stopRequest(clockPid) {
@@ -156,14 +155,7 @@ function triggerRequest(tempCipherNos) {
             cipherNo = tempCipherNo
         }
 
-        $.jdCoinPost({ cipher_no: cipherNo, bindSource: '1' }, requestSms, function(msg) {
-            $('#result_' + index).html(msg)
-        }, function() {
-            stopRequest(clockPid);
-            alert('请求失败，请检查京东登录状态！');
-            $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>")
-        })
-
+        send(requestSms, cipherNo);
         $('#convert_time_' + index).text(dateFormatter(new Date()));
 
         index++
@@ -176,6 +168,28 @@ function triggerRequest(tempCipherNos) {
 
     }, 2500)
     return pid;
+}
+
+function send(requestSms, cipherNo) {
+    $.jdCoinPost({ cipher_no: cipherNo, bindSource: '1' }, requestSms, function(data) {
+
+        if (data.success === undefined) {
+            stopRequest(clockPid);
+            alert('请求失败，请检查京东登录状态！');
+            $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>")
+            return;
+        }
+
+        if (data.success) {
+            $('#result_' + index).html(data.resultMessage)
+        } else {
+            $('#result_' + index).html(data.resultMessage).attr('bgcolor', '#ff0011');
+        }
+    }, function() {
+        stopRequest(clockPid);
+        alert('请求失败，请检查京东登录状态！');
+        $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>")
+    })
 }
 
 function dateFormatter(date) {
