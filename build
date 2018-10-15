@@ -24,7 +24,8 @@ build_core(){
   echo '==============start build_core===================='
   cd ../otms-core
   mvn clean install -DskipTests
-  
+  cd web
+  jetty_run "-server -Xmx2018m -Xms1024m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10003"
   echo '==============end build_core===================='
 }
 
@@ -40,6 +41,8 @@ build_tariff(){
   #build_base
   echo '==============start build_tariff===================='
   cd ../otms-tariff-service &&   mvn clean install -DskipTests
+  cd tariff-service-impl
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10002"
   echo '==============end build_tariff===================='
 }
 
@@ -47,14 +50,24 @@ build_openapi(){
   #build_base
   echo '==============start build_openapi===================='
   cd ../otms-open-api &&   mvn clean install -DskipTests
+  cd service-impl
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10001"
   echo '==============end build_openapi===================='
 }
 
+build_rmi(){
+  #build_base
+  echo '==============start build rmi===================='
+  cd ../otms-mobile/service-impl && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10004"
+  echo '==============end build rmi===================='
+}
 
 build_mobile(){
   #build_base
   echo '==============start build mobile===================='
   cd ../otms-mobile/service-impl && mvn clean install -DskipTests && cd ../service && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10005"
   echo '==============end build mobile===================='
 }
 
@@ -76,6 +89,7 @@ build_mail(){
   #build_base
   echo '==============start build mail===================='
   cd ../otms-notification/mail && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10006"
   echo '==============end build mail===================='
 }
 
@@ -83,13 +97,29 @@ build_meta(){
   #build_base
   echo '==============start build meta===================='
   cd ../otms-meta-service/ && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10007"
   echo '==============end build meta===================='
+}
+
+build_onboarding(){
+  #build_base
+  echo '==============start build_onboarding===================='
+  cd ../otms-onboarding/ && mvn clean install -DskipTests
+  cd onboarding-api
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10008"
+  echo '==============end build meta===================='
+}
+
+jetty_run(){
+  echo '=============================start run with jetty=============================='
+  #export MAVEN_OPTS=$1 && mvn jetty:run
 }
 
 build_mam(){
   #build_base
   echo '==============start build mam===================='
   cd ../otms-mam/ && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10009"
   echo '==============end build mam===================='
 }
 
@@ -97,6 +127,7 @@ build_coreapi(){
   #build_base
   echo '==============start build core-api===================='
   cd ../otms-core-api/core-api/ && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10010"
   echo '==============end build core-api===================='
 }
 
@@ -104,7 +135,16 @@ build_edi(){
   #build_base
   echo '==============start build edi===================='
   cd /home/facheng/source/otms/edi/ && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10011"
   echo '==============end build edi===================='
+}
+
+build_file(){
+  #build_base
+  echo '==============start build file===================='
+  cd ../otms-storage/storage-service && mvn clean install -DskipTests
+  jetty_run "-server -Xmx256m -Xms128m -Xdebug -Xrunjdwp:transport=dt_socket,suspend=n,server=y,address=10012"
+  echo '==============end build file===================='
 }
 
 
@@ -179,6 +219,15 @@ case "$var" in
   ;;
   event)
   build_event_manager
+  ;;
+  onboarding)
+  build_onboarding
+  ;;
+  file)
+  build_file
+  ;;
+  rmi)
+  build_rmi
   ;;
   *)
   echo "please input module paramter! all;core;mobile;openapi;tariff;vaadin;ordersearch;base;export;asynexport;mail;coreapi;edi"
