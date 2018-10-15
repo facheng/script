@@ -18,10 +18,7 @@ $.extend({
                 errorCallback();
             }
         })
-    }
-});
-
-$.extend({
+    },
     jdCoinPost: function(request_data, request_sms, callback, errorCallback) {
         if (request_sms) {
             $.syncPost('https://coin.jd.com/sms/sendCode.html', request_data, function(data) {
@@ -43,6 +40,7 @@ $.extend({
 
     }
 });
+
 var index = 0;
 var clockPid
 $(function() {
