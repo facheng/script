@@ -176,7 +176,7 @@ function send(requestSms, cipherNo) {
         if (data.success === undefined) {
             stopRequest(clockPid);
             alert('请求失败，请检查京东登录状态！');
-            $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>")
+            $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>").attr('bgcolor', '#ff0011');
             return;
         }
 
@@ -188,7 +188,7 @@ function send(requestSms, cipherNo) {
     }, function() {
         stopRequest(clockPid);
         alert('请求失败，请检查京东登录状态！');
-        $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>")
+        $('#result_' + index).html("请求失败，请检查京东登录信息！<a href ='http://www.jd.com'　target='_blank'>京东登录</a>").attr('bgcolor', '#ff0011');
     })
 }
 
