@@ -166,7 +166,7 @@ function triggerRequest(tempCipherNos) {
             $('#reset').val('stop').html('停止').attr('disabled', 'disabled')
         }
 
-    }, 2500)
+    }, 3000)
     return pid;
 }
 
@@ -184,6 +184,8 @@ function send(requestSms, cipherNo) {
             $('#result_' + index).html(data.resultMessage)
         } else {
             $('#result_' + index).html(data.resultMessage).attr('bgcolor', '#ff0011');
+            $('#convert_info_' + index).attr('bgcolor', '#ff0011');
+
         }
     }, function() {
         stopRequest(clockPid);
