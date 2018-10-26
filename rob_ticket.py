@@ -23,8 +23,7 @@ def get_request_header(cookie):
     return requestHeaders
 
 
-def ticket_rob(target_timer, cookie, rule_key, get_coupon_url='https://a.jd.com/indexAjax/getCoupon.html', get_cate_url='https://a.jd.com/indexAjax/getCouponListByCatalogId.html?callback=jQuery4342914&catalogId=19&page=1&pageSize=9&_=1534521129630'):
-    requestHeaders = get_request_header(cookie)
+def ticket_rob(target_timer, cookies, rule_key, get_coupon_url='https://a.jd.com/indexAjax/getCoupon.html', get_cate_url='https://a.jd.com/indexAjax/getCouponListByCatalogId.html?callback=jQuery4342914&catalogId=19&page=1&pageSize=9&_=1534521129630'):
     send_code_url = get_coupon_url+'?callback=jQuery1355969&key=' + rule_key + '&type=1&_=1534554679960'
 
     target_symbol = '"success":true'
@@ -46,14 +45,24 @@ def ticket_rob(target_timer, cookie, rule_key, get_coupon_url='https://a.jd.com/
         now_timer = datetime.datetime.now()
     else:
         print '发送请求'
-        response = requests.get(
-            send_code_url, headers=requestHeaders, allow_redirects=False)
-        print response.text
+        for cookie in cookies:
+            requestHeaders = get_request_header(cookie)
+            response = requests.get(
+                send_code_url, headers=requestHeaders, allow_redirects=False)
+            print response.text
 
 
 if __name__ == '__main__':
-    cookie = ''
+    
+    cookies = [] 
+    first_cookie = ''
+    sec_cookie = ''
+    cookies.append(first_cookie)
+    cookies.append(sec_cookie)
     # 通过getCouponListByCatalogId获得
-    rule_key = 'dd5991b1d0c347f009366643800fb3873c65ca1b8e5dc241b942e49d3eeccd7a6199d8d64d121a921cc53bbd6d535cf2'
-    target_timer_arg = datetime.datetime(2018, 8, 27, 21, 10, 00, 000500)
-    ticket_rob(target_timer = target_timer_arg, cookie = cookie, rule_key = rule_key)
+    rule_key = 'c04ea570d27dc25e7cfbc00757ba205209b5ac63df4c8170283d6b941bde7bfa649492b57fcc20b371abef1145eb2205'
+
+    #150 c04ea570d27dc25e7cfbc00757ba205209b5ac63df4c8170283d6b941bde7bfa649492b57fcc20b371abef1145eb2205
+    #100 3d0b0737f9ef5199730417a69e8ab16c842d53a1e4ef10962242ffd337450a3fbcc799beaf4a7ed051b1e9ca7cf786a6
+    target_timer_arg = datetime.datetime(2018, 10, 26, 16, 00, 00, 000200)
+    ticket_rob(target_timer = target_timer_arg, cookies = cookies, rule_key = rule_key)
