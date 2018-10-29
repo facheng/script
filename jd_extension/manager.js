@@ -18,7 +18,10 @@ $.extend({
                 errorCallback();
             }
         })
-    },
+    }
+});
+
+$.extend({
     jdCoinPost: function(request_data, request_sms, callback, errorCallback) {
         if (request_sms) {
             $.syncPost('https://coin.jd.com/sms/sendCode.html', request_data, function(data) {
@@ -40,7 +43,6 @@ $.extend({
 
     }
 });
-
 var index = 0;
 var clockPid
 $(function() {
@@ -115,6 +117,7 @@ $(function() {
             $('#jd_coin_info').html(jd_coin_result)
         }
 
+
         $('#start').removeAttr('disabled')
         $('#reset').val('stop').html('停止').attr('disabled', 'disabled')
 
@@ -181,7 +184,7 @@ function send(requestSms, cipherNo) {
         if (data.success) {
             $('#result_' + index).html(data.resultMessage)
         } else {
-            $('#result_' + index).html(data.resultMessage).attr('bgcolor', '#ff0011');
+            $('#result_' + index).html(cipherNo + " -> " + data.resultMessage).attr('bgcolor', '#ff0011');
             $('#convert_info_' + index).attr('bgcolor', '#ff0011');
 
         }
