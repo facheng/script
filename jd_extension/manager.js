@@ -151,7 +151,7 @@ function triggerRequest(tempCipherNos) {
         var tempCipherNo = tempCipherNos[index]
         var cipherNo
         if (matcher != null && matcher != undefined && matcher != '') {
-            cipherNo = tempCipherNo.substr(tempCipherNo.lastIndexOf(matcher, tempCipherNo.length) + matcher.length, tempCipherNo.length)
+            cipherNo = tempCipherNo.substr(tempCipherNo.lastIndexOf(matcher, tempCipherNo.length) + matcher.length, tempCipherNo.length).trim()
         } else {
             cipherNo = tempCipherNo
         }
