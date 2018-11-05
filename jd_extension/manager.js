@@ -184,7 +184,7 @@ function send(requestSms, cipherNo) {
         if (data.success) {
             $('#result_' + index).html(data.resultMessage)
         } else {
-            $('#result_' + index).html(cipherNo + " -> " + data.resultMessage).attr('bgcolor', '#ff0011');
+            $('#result_' + index).html("[" + cipherNo + "] -> " + data.resultMessage).attr('bgcolor', '#ff0011');
             $('#convert_info_' + index).attr('bgcolor', '#ff0011');
 
         }
